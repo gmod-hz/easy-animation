@@ -12,8 +12,6 @@ jobs:
   steam-workshop-download:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7.0.0
       - name: Check Steam Workshop item updates
         run: |
           curl -X POST https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/ \
@@ -37,13 +35,16 @@ jobs:
           echo "GMA=$GMA" >> $GITHUB_OUTPUT
       - name: Extract GMA
         run: |
-          fastgmad extract -file ${{ steps.download.outputs.GMA }} -out ./extract
+          pwd; ls
+          fastgmad extract -file ${{ steps.download.outputs.GMA }}
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.0
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Commit and push
         run: |
-          cd ./extract
+          pwd; ls
           git commit -am "Updated from Workshop"
           git push origin main
