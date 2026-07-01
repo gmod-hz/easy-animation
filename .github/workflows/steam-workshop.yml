@@ -30,4 +30,11 @@ jobs:
           chmod +x fastgmad
           sudo mv fastgmad /usr/local/bin
       - name: Download Steam Workshop item
-        run: steamcmd +login anonymous +workshop_download_item 4000 ${{ vars.WORKSHOP_ITEM_ID }} +quit
+        id: download
+        run: |
+          steamcmd +login anonymous +workshop_download_item 4000 ${{ vars.WORKSHOP_ITEM_ID }} +quit
+          GMA=$(find ~/Steam/steamapps/workshop/content/4000/${{ vars.WORKSHOP_ITEM_ID }} -name "*.gma" | head -n 1)
+          echo "GMA=$GMA" >> $GITHUB_OUTPUT
+      - name: Extract GMA
+        run: |
+          fastgmad extract -file ${{ steps.download.outputs.GMA }} -out ./extract
