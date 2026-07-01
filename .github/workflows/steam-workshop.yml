@@ -19,7 +19,7 @@ jobs:
           curl -X POST https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/ \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "itemcount=1" \
-            -d "publishedfileids[0]=${{ vars.WORKSHOP_ITEM_ID }}"
+            -d "publishedfileids[0]=${{ vars.WORKSHOP_ITEM_ID }}" \
             | jq '.response.publishedfiledetails[0].time_updated'
       - name: Install SteamCMD
         uses: andriivitiv/setup-steamcmd@v1.2.0
