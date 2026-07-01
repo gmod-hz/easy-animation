@@ -1,0 +1,32 @@
+name: Steam Workshop Download
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  submodule-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.0
+      - name: Check Steam Workshop item updates
+        run: |
+          curl -X POST https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/ \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "itemcount=1" \
+            -d "publishedfileids[0]=${{ vars.WORKSHOP_ITEM_ID }}"
+      - name: Install SteamCMD
+        uses: andriivitiv/setup-steamcmd@v1.2.0
+      - name: Install fastgmad
+        run: |   
+          curl -L https://github.com/WilliamVenner/fastgmad/releases/latest/download/fastgmad_linux.zip
+          unzip fastgmad_linux.zip
+          chmod +x fastgmad
+          mv fastgmad ~/.local/bin
+      - name: Download Steam Workshop item
+        run: steamcmd +login anonymous +workshop_download_item 4000 ${{ vars.WORKSHOP_ITEM_ID }} +quit
