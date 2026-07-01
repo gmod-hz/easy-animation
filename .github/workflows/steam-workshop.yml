@@ -38,3 +38,12 @@ jobs:
       - name: Extract GMA
         run: |
           fastgmad extract -file ${{ steps.download.outputs.GMA }} -out ./extract
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Commit and push
+        run: |
+          cd ./extract
+          git commit -am "Updated from Workshop"
+          git push origin main
