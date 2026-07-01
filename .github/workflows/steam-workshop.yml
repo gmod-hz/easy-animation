@@ -28,6 +28,6 @@ jobs:
           curl -LO https://github.com/WilliamVenner/fastgmad/releases/latest/download/fastgmad_linux.zip
           unzip fastgmad_linux.zip
           chmod +x fastgmad
-          mv fastgmad ~/.local/bin
+          sudo mv fastgmad /usr/local/bin
       - name: Download Steam Workshop item
         run: steamcmd +login anonymous +workshop_download_item 4000 ${{ vars.WORKSHOP_ITEM_ID }} +quit
