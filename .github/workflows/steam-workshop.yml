@@ -46,6 +46,8 @@ jobs:
       - name: Commit and push
         run: |
           cp -r ${{ runner.temp }}/addon/* ./
-          git add -A
-          git commit -m "Updated from Steam Workshop"
-          git push origin main
+          if git diff --quiet; then
+            git add -A
+            git commit -m "Updated from Steam Workshop"
+            git push origin main
+          fi
