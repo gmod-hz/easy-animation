@@ -25,7 +25,7 @@ jobs:
         uses: andriivitiv/setup-steamcmd@v1.2.0
       - name: Install fastgmad
         run: |   
-          curl -L https://github.com/WilliamVenner/fastgmad/releases/latest/download/fastgmad_linux.zip
+          curl -LO https://github.com/WilliamVenner/fastgmad/releases/latest/download/fastgmad_linux.zip
           unzip fastgmad_linux.zip
           chmod +x fastgmad
           mv fastgmad ~/.local/bin
