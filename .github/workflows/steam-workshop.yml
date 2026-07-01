@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  submodule-update:
+  steam-workshop-download:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,6 +20,7 @@ jobs:
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "itemcount=1" \
             -d "publishedfileids[0]=${{ vars.WORKSHOP_ITEM_ID }}"
+            | jq '.response.publishedfiledetails[0].time_updated'
       - name: Install SteamCMD
         uses: andriivitiv/setup-steamcmd@v1.2.0
       - name: Install fastgmad
